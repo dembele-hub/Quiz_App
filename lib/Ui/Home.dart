@@ -15,6 +15,10 @@ class _QuizAppState extends State<QuizApp> {
     Question.name("ABUJA is the capital of Nigeria?", true),
     Question.name("Lagos was the capital of Nigeria until 1991?", true),
     Question.name("Nigeria has coast on the Gulf of Guinea?", true),
+    Question.name("Dr. Bertha Johnson was the first Nigerian female psychiatrist?", true),
+    Question.name("Olusegun Obasanjo was the first President of Nigeria?", false),
+    Question.name("Benson Andrew Idahosa was the first awarded Archbishop in Africa?", true),
+    Question.name("The full meaning of WAEC is West African Examinations Commission?", false),
     Question.name(
         "Nigeria is a former colony of the French Colonial Empire?", false),
     Question.name("Nigeria uses the dollar as it's currency?", false),
@@ -30,8 +34,10 @@ class _QuizAppState extends State<QuizApp> {
     Question.name(
         "There is a large monolith called Zuma Rock just west of Abuja?", true),
     Question.name("Nigerians drive on the right side of the road?", false),
+    Question.name("The Kainji Dam in Nigeria is located at Lokoja State?", false),
     Question.name("Kano is Nigeria's third largest city by population", true),
     Question.name("Nigeria have 250 ethnic groups?", true),
+    Question.name("The Sahara Desert is the hottest region in the world?", true),
     Question.name(
         "In Nigeria, democracy day is now celebrated on June 12?", true),
     Question.name("Nigeria become independent in 1960?", true),
@@ -56,99 +62,121 @@ class _QuizAppState extends State<QuizApp> {
         backgroundColor: Colors.orange.shade100,
       ),
       backgroundColor: Colors.orange.shade100,
-      body: Builder(
-        builder: (BuildContext context) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                    child: Image.asset(
-                  "images/COAT.png",
-                  width: 250,
-                  height: 180,
-                )),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(14.4),
-                        border: Border.all(
-                          color: Colors.green,
-                          style: BorderStyle.solid,
-                        )),
-                    height: 120.0,
-                    child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
+      body: Builder(builder: (BuildContext context) {
+        return Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                  child: Image.asset(
+                "images/COAT.png",
+                width: 250,
+                height: 180,
+              )),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(14.4),
+                      border: Border.all(
+                        color: Colors.green,
+                        style: BorderStyle.solid,
+                      )),
+                  height: 120.0,
+                  child: Center(
+                      child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
                       questionBank[_currentQuestionIndex].questionText,
                       style: const TextStyle(
-                          fontSize: 17.9,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                        fontSize: 17.9,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
                     ),
-                        )),
+                  )),
+                ),
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                ElevatedButton(
+                  onPressed: () => _prevQuestion(),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  ),
+                  child: const Icon(Icons.arrow_back),
+                ),
+                ElevatedButton(
+                  onPressed: () => _checkAnswer(true, context),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  ),
+                  child: const Text(
+                    "True",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                  ElevatedButton(
-                    onPressed: () => _checkAnswer(true, context),
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.green),
-                    ),
-                    child: const Text(
-                      "True",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                ElevatedButton(
+                  onPressed: () => _checkAnswer(false, context),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  ),
+                  child: const Text(
+                    "False",
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () => _checkAnswer(false, context),
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.green),
-                    ),
-                    child: const Text(
-                      "False",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
+                ),
+                ElevatedButton(
+                  onPressed: () => _newQuestion(),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green),
                   ),
-                  ElevatedButton(
-                    onPressed: () => _newQuestion(), style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green),),
-                    child: const Icon(Icons.arrow_forward),
-                      )
-                ]),
-                const Spacer(),
-              ],
-            ),
-          );
-        }
-      ),
+                  child: const Icon(Icons.arrow_forward),
+                )
+              ]),
+              const Spacer(),
+            ],
+          ),
+        );
+      }),
     );
   }
 
   _checkAnswer(bool userChoice, BuildContext context) {
-    if(userChoice == questionBank[_currentQuestionIndex].isCorrect){
-     const snackBar = SnackBar(content: Text("Correct!"));
-     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      debugPrint("Correct!");
-
-    }else{
-      debugPrint("Incorrect!");
-      const snackBar = SnackBar(content: Text("InCorrect!"));
+    if (userChoice == questionBank[_currentQuestionIndex].isCorrect) {
+      const snackBar = SnackBar(
+          backgroundColor: Colors.green,
+          duration: Duration(milliseconds: 500),
+          content: Text("Correct!"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        _currentQuestionIndex++;
+      });
+    } else {
+      setState(() {
+        _currentQuestionIndex++;
+      });
+      const snackBar = SnackBar(
+          backgroundColor: Colors.redAccent,
+          duration: Duration(milliseconds: 500),
+          content: Text("InCorrect!"));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
+
   _newQuestion() {
     setState(() {
       _currentQuestionIndex = (_currentQuestionIndex + 1) % questionBank.length;
     });
+  }
 
+  _prevQuestion() {
+    setState(() {
+      _currentQuestionIndex = (_currentQuestionIndex - 1) % questionBank.length;
+    });
   }
 }
