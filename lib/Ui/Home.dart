@@ -59,9 +59,9 @@ class _QuizAppState extends State<QuizApp> {
       appBar: AppBar(
         title: const Text("True Citizen"),
         centerTitle: true,
-        backgroundColor: Colors.orange.shade100,
+       // backgroundColor: Colors.orange.shade100,
       ),
-      backgroundColor: Colors.orange.shade100,
+     // backgroundColor: Colors.orange.shade100,
       body: Builder(builder: (BuildContext context) {
         return Container(
           child: Column(
