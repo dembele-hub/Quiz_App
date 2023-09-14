@@ -3,7 +3,8 @@ import 'Ui/Home.dart';
 
 void main() => runApp( MaterialApp(
       theme: ThemeData(brightness: Brightness.dark,
-        primaryColor: Colors.lightGreenAccent,
+        primaryColor: Colors.purpleAccent
+
       ),
       home: const QuizApp(),
     ));
